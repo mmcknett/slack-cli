@@ -18,7 +18,13 @@ class SlackApiOnTheKeep
 
     def listChannels
         channelResp = self.class.get("/channels.list", @argsForEachReq)
-        # For this assignment, we're ignoring additional pages.
+        # For this assignment, I'm ignoring additional pages.
         return channelResp["channels"]
+    end
+
+    def listUsers
+        usersResp = self.class.get("/users.list", @argsForEachReq)
+        # For this assignment, I'm ignoring additional pages.
+        return usersResp["members"]
     end
 end
