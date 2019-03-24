@@ -29,4 +29,30 @@ describe "Exploratory tests for the live slack API" do
             expect(users.any? {|user| user["name"] == "slackbot"})
         end
     end
+
+    it "Must post a message to bot-traffic by default" do
+       VCR.use_cassette("Slack API post message to bot-traffic") do
+            # Arrange
+            client = SlackApiOnTheKeep.new
+
+            # Act
+            client.postMessage(message: "Hello, #bot-traffic, from the Exploratory Tests!")
+
+            # Assert
+            # No SlackApiError thrown.
+       end
+    end
+
+    it "Must post a message to the channel specified" do
+        VCR.use_cassette("Slack API post message to everyone") do
+             # Arrange
+             client = SlackApiOnTheKeep.new
+ 
+             # Act
+             client.postMessage(channel: "everyone", message: "Hello, #everyone, from the Exploratory Tests!")
+ 
+             # Assert
+             # No SlackApiError thrown.
+        end
+    end
 end
