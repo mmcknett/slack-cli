@@ -12,4 +12,11 @@ class Channel < Recipient
         @topic = slack_response["topic"]["value"]
         @member_count = slack_response["num_members"]
     end
+
+    def ==(other)
+        self.slack_id == other.slack_id &&
+        self.name == other.name &&
+        self.topic == other.topic &&
+        self.member_count == other.member_count
+    end
 end

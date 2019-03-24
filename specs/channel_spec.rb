@@ -35,4 +35,12 @@ describe "Channel class" do
         expect(channel.member_count).must_equal Mocks::CHANNEL_1["num_members"]
         expect(channel.topic).must_equal Mocks::CHANNEL_1["topic"]["value"]
     end
+
+    it "compares identical channels as equal" do
+        # Arrange
+        mockSlackResponse = Mocks::CHANNEL_1
+
+        # Act/Assert
+        expect(Channel.new(mockSlackResponse)).must_equal Channel.new(mockSlackResponse)
+    end
 end

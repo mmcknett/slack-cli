@@ -9,4 +9,9 @@ class Recipient
         @slack_id = slack_response["id"]
         @name = slack_response["name"]
     end
+
+    def ==(other)
+        self.slack_id == other.slack_id &&
+        self.name == other.name
+    end
 end

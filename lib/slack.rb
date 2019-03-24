@@ -1,4 +1,11 @@
 #!/usr/bin/env ruby
+require 'table_print'
+
+require_relative './slack-api'
+require_relative './workspace'
+
+$slackApi = SlackApiOnTheKeep.new
+$workspace = Workspace.new($slackApi)
 
 def main
   puts "Welcome to the Ada Slack CLI!"
@@ -21,7 +28,10 @@ def read(command)
     case input
     when "help"
       return :showCommands
-  # TODO project
+    when "list users"
+      return :listUsers
+    when "list channels"
+      return :listChannels
     when "quit"
       return :exit
     else
@@ -48,10 +58,11 @@ def print(command)
     return :askInput
   when :listUsers
 
-    return :askInput
+    return :showCommands
   when :listChannels
-
-    return :askInput
+    allChannels = $workspace.channels
+    tp allChannels, :name, :topic, :member_count, :slack_id
+    return :showCommands
   end
 
   return command

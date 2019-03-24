@@ -40,4 +40,12 @@ describe "Recipient class" do
         expect(recipient.slack_id).must_equal id
         expect(recipient.name).must_equal name
     end
+
+    it "compares identical recipients as equal" do
+        # Arrange
+        mockSlackResponse = { "name" => "recipient name", "id" => "ABC123456" }
+
+        # Act/Assert
+        expect(Recipient.new(mockSlackResponse)).must_equal Recipient.new(mockSlackResponse)
+    end
 end
