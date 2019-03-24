@@ -2,6 +2,7 @@ require_relative '../lib/workspace'
 
 require_relative './test_helper'
 require_relative './mocks/channel_response_mocks'
+require_relative './mocks/user_response_mocks'
 
 class MockApi
     attr_reader :listChannelsCalled, :listUsersCalled, :postMessageCalled
@@ -19,6 +20,9 @@ class MockApi
 
     def listUsers
         @listUsersCalled = true
+
+        # Return some fake users
+        return [Mocks::USER_1, Mocks::USER_2]
     end
 
     def postMessage(message: "", channel: "")
@@ -44,5 +48,16 @@ describe "Workspace" do
 
         # Assert
         expect(channels).must_equal [Channel.new(Mocks::CHANNEL_1), Channel.new(Mocks::CHANNEL_2)]
+    end
+
+    it "must return users with the expected transform" do
+        # Arrange
+        workspace = Workspace.new(MockApi.new)
+
+        # Act
+        users = workspace.users
+
+        # Assert
+        expect(users).must_equal [User.new(Mocks::USER_1), User.new(Mocks::USER_2)]
     end
 end
