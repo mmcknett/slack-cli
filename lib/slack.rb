@@ -33,17 +33,38 @@ def read(command)
     when "list channels"
       return :listChannels
     when "select user"
-      return askForUserToSelect
+      return :selectUser
     when "select channel"
-      return askForChannelToSelect
+      return :selectChannel
     when "details"
       return :showSelectedRecipient
+    when "send message"
+      return :sendMessage
     when "quit"
       return :exit
     else
       puts "Unknown command \"#{input}\""
       return :askInput
     end
+  end
+
+  return command
+end
+
+
+def execute(command)
+  case command
+  when :selectUser
+    return askForUserToSelect
+  when :selectChannel
+    return askForChannelToSelect
+  when :sendMessage
+    if $workspace.selected.nil?
+      puts "You must select a recipient before sending messages."
+      puts ""
+      return :showCommands
+    end
+    return askForMessage
   end
 
   return command
@@ -72,9 +93,19 @@ def askForRecipientToSelect(recipStr, funcSymbol)
   return :showSelectedRecipient
 end
 
+def askForMessage
+  puts "Enter a message to send to #{$workspace.selected.name}"
+  input = gets.chomp
 
-def execute(command)
-  return command
+  begin
+    $workspace.send_message input
+    puts "Sent!"
+  rescue SlackApiError => e
+    puts "⚠️  #{e.to_s}"
+  end
+
+  puts ""
+  return :showCommands
 end
 
 
@@ -115,6 +146,7 @@ def printCommands
   puts "  select user"
   puts "  select channel"
   puts "  details" if !$workspace.selected.nil?
+  puts "  send message" if !$workspace.selected.nil?
   puts "  help"
   puts "  quit"
 end
