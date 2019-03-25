@@ -24,6 +24,6 @@ class User < Recipient
     end
 
     def details
-        return "#{@real_name} - #{@name} (#{@slack_id})\nCurrent status: #{@status_emoji} #{@status_text}"
+        return "#{@real_name} - #{@name} (#{@slack_id})\n  Current status: #{@status_emoji} #{@status_text}"
     end
 end

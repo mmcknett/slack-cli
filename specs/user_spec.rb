@@ -63,6 +63,6 @@ describe "User class" do
         user = User.new(Mocks::USER_1)
 
         # Act/Assert
-        expect(user.details).must_equal "#{Mocks::USER_1["real_name"]} - #{Mocks::USER_1["name"]} (#{Mocks::USER_1["id"]})\nCurrent status: #{Mocks::USER_1["profile"]["status_emoji"]} #{Mocks::USER_1["profile"]["status_text"]}"
+        expect(user.details).must_equal "#{Mocks::USER_1["real_name"]} - #{Mocks::USER_1["name"]} (#{Mocks::USER_1["id"]})\n  Current status: #{Mocks::USER_1["profile"]["status_emoji"]} #{Mocks::USER_1["profile"]["status_text"]}"
     end
 end
