@@ -43,4 +43,12 @@ describe "Channel class" do
         # Act/Assert
         expect(Channel.new(mockSlackResponse)).must_equal Channel.new(mockSlackResponse)
     end
+
+    it "returns details in the expected format" do
+        # Arrange
+        user = Channel.new(Mocks::CHANNEL_1)
+
+        # Act/Assert
+        expect(user.details).must_equal "##{Mocks::CHANNEL_1["name"]} (#{Mocks::CHANNEL_1["id"]})\n  Topic: #{Mocks::CHANNEL_1["topic"]["value"]}\n  Member count: #{Mocks::CHANNEL_1["num_members"]}"
+    end
 end

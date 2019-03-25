@@ -14,9 +14,13 @@ class Channel < Recipient
     end
 
     def ==(other)
-        self.slack_id == other.slack_id &&
-        self.name == other.name &&
-        self.topic == other.topic &&
-        self.member_count == other.member_count
+        @slack_id == other.slack_id &&
+        @name == other.name &&
+        @topic == other.topic &&
+        @member_count == other.member_count
+    end
+
+    def details
+        "##{@name} (#{@slack_id})\n  Topic: #{@topic}\n  Member count: #{@member_count}"
     end
 end

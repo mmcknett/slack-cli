@@ -1,6 +1,6 @@
 module Mocks
     CHANNEL_1 = {
-        "name" => "channel 1",
+        "name" => "channel-1",
         "topic" => {
             "value" => "Some topic"
         },
@@ -9,7 +9,7 @@ module Mocks
     }
 
     CHANNEL_2 = {
-        "name" => "channel 2",
+        "name" => "channel-2",
         "topic" => {
             "value" => "A different topic"
         },
