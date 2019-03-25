@@ -39,7 +39,7 @@ describe "Workspace" do
         # No errors raised.
     end
 
-    it "must return channels with the expected transform" do
+    it "must return channels based on the Slack API data" do
         # Arrange
         workspace = Workspace.new(MockApi.new)
 
@@ -50,7 +50,7 @@ describe "Workspace" do
         expect(channels).must_equal [Channel.new(Mocks::CHANNEL_1), Channel.new(Mocks::CHANNEL_2)]
     end
 
-    it "must return users with the expected transform" do
+    it "must return users based on the Slack API data" do
         # Arrange
         workspace = Workspace.new(MockApi.new)
 
@@ -89,5 +89,47 @@ describe "Workspace" do
 
         # Assert
         expect(workspace.selected).must_equal Channel.new(Mocks::CHANNEL_1)
+    end
+
+    it "must raise ArgumentError if the channel/id is invalid" do
+        # Arrange
+        workspace = Workspace.new(MockApi.new)
+
+        # Act/Assert
+        expect {
+            workspace.select_channel "invalid_id"
+        }.must_raise ArgumentError
+    end
+
+    it "must allow selecting a user by name" do
+        # Arrange
+        workspace = Workspace.new(MockApi.new)
+
+        # Act
+        workspace.select_user Mocks::USER_1["name"]
+
+        # Assert
+        expect(workspace.selected).must_equal User.new(Mocks::USER_1)
+    end
+
+    it "must allow selecting a user by id" do
+        # Arrange
+        workspace = Workspace.new(MockApi.new)
+
+        # Act
+        workspace.select_user Mocks::USER_1["id"]
+
+        # Assert
+        expect(workspace.selected).must_equal User.new(Mocks::USER_1)
+    end
+
+    it "must raise ArgumentError if the name/id is invalid" do
+        # Arrange
+        workspace = Workspace.new(MockApi.new)
+
+        # Act/Assert
+        expect {
+            workspace.select_user "invalid_id"
+        }.must_raise ArgumentError
     end
 end
