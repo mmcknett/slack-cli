@@ -3,7 +3,7 @@ require_relative './test_helper'
 require_relative '../lib/recipient'
 
 describe "Recipient class" do
-    it "throws ArgumentError if no parameter is provided" do
+    it "raises ArgumentError if no parameter is provided" do
         # Arrange
         mockSlackResponse = nil
 
@@ -11,7 +11,7 @@ describe "Recipient class" do
         expect { Recipient.new(mockSlackResponse) }.must_raise ArgumentError
     end
 
-    it "throws ArgumentError if no name is provided" do
+    it "raises ArgumentError if no name is provided" do
         # Arrange
         mockSlackResponse = { "id" => "ABC123456" }
 
@@ -47,5 +47,14 @@ describe "Recipient class" do
 
         # Act/Assert
         expect(Recipient.new(mockSlackResponse)).must_equal Recipient.new(mockSlackResponse)
+    end
+
+    it "raises NotImplementedError for details" do
+        # Arrange
+        mockSlackResponse = { "name" => "recipient name", "id" => "ABC123456" }
+        recipient = Recipient.new(mockSlackResponse)
+
+        # Act/Assert
+        expect { recipient.details }.must_raise NotImplementedError
     end
 end

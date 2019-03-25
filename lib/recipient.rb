@@ -14,4 +14,8 @@ class Recipient
         self.slack_id == other.slack_id &&
         self.name == other.name
     end
+
+    def details
+        raise NotImplementedError
+    end
 end
