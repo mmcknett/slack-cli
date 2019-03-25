@@ -60,4 +60,34 @@ describe "Workspace" do
         # Assert
         expect(users).must_equal [User.new(Mocks::USER_1), User.new(Mocks::USER_2)]
     end
+
+    it "must have nothing selected initially" do
+        # Arrange/Act
+        workspace = Workspace.new(MockApi.new)
+
+        # Assert
+        expect(workspace.selected).must_be_nil
+    end
+
+    it "must allow selecting a channel by name" do
+        # Arrange
+        workspace = Workspace.new(MockApi.new)
+
+        # Act
+        workspace.select_channel Mocks::CHANNEL_1["name"]
+
+        # Assert
+        expect(workspace.selected).must_equal Channel.new(Mocks::CHANNEL_1)
+    end
+
+    it "must allow selecting a channel by id" do
+        # Arrange
+        workspace = Workspace.new(MockApi.new)
+
+        # Act
+        workspace.select_channel Mocks::CHANNEL_1["id"]
+
+        # Assert
+        expect(workspace.selected).must_equal Channel.new(Mocks::CHANNEL_1)
+    end
 end
