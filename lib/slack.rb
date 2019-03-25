@@ -12,7 +12,7 @@ def main
 
   command = :showCommands
   until command == :exit
-    command = print(execute(read(command)))
+    command = prnt(execute(read(command)))
   end
 
   puts "Thank you for using the Ada Slack CLI! 💖"
@@ -76,7 +76,7 @@ def execute(command)
 end
 
 
-def print(command)
+def prnt(command)
   case command
   when :showCommands
     printCommands
