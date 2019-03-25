@@ -36,6 +36,8 @@ def read(command)
       return askForUserToSelect
     when "select channel"
       return askForChannelToSelect
+    when "details"
+      return :showSelectedRecipient
     when "quit"
       return :exit
     else
@@ -92,6 +94,14 @@ def prnt(command)
     puts ""
     return :showCommands
   when :showSelectedRecipient
+    if $workspace.selected.nil?
+      puts "No recipient is selected."
+      puts ""
+    else
+      puts "Selected recipient:"
+      puts $workspace.selected.details
+      puts ""
+    end
     return :showCommands
   end
 
@@ -104,6 +114,7 @@ def printCommands
   puts "  list channels"
   puts "  select user"
   puts "  select channel"
+  puts "  details" if !$workspace.selected.nil?
   puts "  help"
   puts "  quit"
 end
