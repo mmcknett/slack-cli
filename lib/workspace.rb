@@ -33,4 +33,9 @@ class Workspace
         raise ArgumentError, "Recipient with name/id #{nameOrId} could not be found." if recipientIdx == nil
         @selected = recipientList[recipientIdx]
     end
+
+    def send_message(message)
+        raise RuntimeError, "No recipient is selected" if @selected.nil?
+        @apiClient.postMessage(message: message, channel: @selected.slack_id)
+    end
 end

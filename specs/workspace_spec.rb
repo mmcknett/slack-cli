@@ -5,28 +5,26 @@ require_relative './mocks/channel_response_mocks'
 require_relative './mocks/user_response_mocks'
 
 class MockApi
-    attr_reader :listChannelsCalled, :listUsersCalled, :postMessageCalled
+    attr_reader :postMessageCalled, :postedMessage, :channelPostedTo
 
     def initialize
         @listChannelsCalled = @listUsersCalled = @postMessageCalled = false
     end
 
     def listChannels
-        @listChannelsCalled = true
-
         # Return some fake channels with name, topic, member count, and Slack ID
         return [Mocks::CHANNEL_1, Mocks::CHANNEL_2]
     end
 
     def listUsers
-        @listUsersCalled = true
-
         # Return some fake users
         return [Mocks::USER_1, Mocks::USER_2]
     end
 
     def postMessage(message: "", channel: "")
         @postMessageCalled = true
+        @postedMessage = message
+        @channelPostedTo = channel
     end
 end
 
@@ -131,5 +129,32 @@ describe "Workspace" do
         expect {
             workspace.select_user "invalid_id"
         }.must_raise ArgumentError
+    end
+
+    it "must raise RuntimeError if no recipient is selected for send_message" do
+        # Arrange
+        workspace = Workspace.new(MockApi.new)
+
+        # Act/Assert
+        expect {
+            workspace.send_message "Hello from the Workspace tests!"
+        }.must_raise RuntimeError
+    end
+
+    it "must send a message to the selected channel via the api" do
+        # Arrange
+        api = MockApi.new
+        workspace = Workspace.new(api)
+        channel = Channel.new(Mocks::CHANNEL_1)
+        workspace.select_channel channel.slack_id
+        message = "Hello from the Workspace tests!"
+
+        # Act
+        workspace.send_message message
+
+        # Act/Assert
+        expect(api.postMessageCalled).must_equal true
+        expect(api.postedMessage).must_equal message
+        expect(api.channelPostedTo).must_equal channel.slack_id
     end
 end
