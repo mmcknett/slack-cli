@@ -57,11 +57,14 @@ def print(command)
     puts "  quit"
     return :askInput
   when :listUsers
-
+    allUsers = $workspace.users
+    tp allUsers, :name, :real_name, :status_text, :status_emoji, :slack_id
+    puts ""
     return :showCommands
   when :listChannels
     allChannels = $workspace.channels
     tp allChannels, :name, :topic, :member_count, :slack_id
+    puts ""
     return :showCommands
   end
 
