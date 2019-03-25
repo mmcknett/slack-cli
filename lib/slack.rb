@@ -85,12 +85,12 @@ def askForRecipientToSelect(recipStr, funcSymbol)
 
   begin
     $workspace.method(funcSymbol).call input
+    puts "Selected #{$workspace.selected.name}"
   rescue ArgumentError => e
     puts "⚠️  #{e.to_s}"
-    puts ""
-    return :showCommands
   end
-  return :showSelectedRecipient
+  puts ""
+  return :showCommands
 end
 
 def askForMessage
