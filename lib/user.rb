@@ -22,4 +22,8 @@ class User < Recipient
         @status_text == other.status_text &&
         @status_emoji == other.status_emoji
     end
+
+    def details
+        return "#{@real_name} - #{@name} (#{@slack_id})\nCurrent status: #{@status_emoji} #{@status_text}"
+    end
 end

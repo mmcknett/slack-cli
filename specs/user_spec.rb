@@ -40,21 +40,29 @@ describe "User class" do
         mockSlackResponse = Mocks::USER_1
 
         # Act
-        recipient = User.new(mockSlackResponse)
+        user = User.new(mockSlackResponse)
 
         # Assert
-        expect(recipient.slack_id).must_equal Mocks::USER_1["id"]
-        expect(recipient.name).must_equal Mocks::USER_1["name"]
-        expect(recipient.real_name).must_equal Mocks::USER_1["real_name"]
-        expect(recipient.status_text).must_equal Mocks::USER_1["profile"]["status_text"]
-        expect(recipient.status_emoji).must_equal Mocks::USER_1["profile"]["status_emoji"]
+        expect(user.slack_id).must_equal Mocks::USER_1["id"]
+        expect(user.name).must_equal Mocks::USER_1["name"]
+        expect(user.real_name).must_equal Mocks::USER_1["real_name"]
+        expect(user.status_text).must_equal Mocks::USER_1["profile"]["status_text"]
+        expect(user.status_emoji).must_equal Mocks::USER_1["profile"]["status_emoji"]
     end
 
-    it "compares identical recipients as equal" do
+    it "compares identical users as equal" do
         # Arrange
         mockSlackResponse = Mocks::USER_1
 
         # Act/Assert
         expect(User.new(mockSlackResponse)).must_equal User.new(mockSlackResponse)
+    end
+
+    it "returns details in the expected format" do
+        # Arrange
+        user = User.new(Mocks::USER_1)
+
+        # Act/Assert
+        expect(user.details).must_equal "#{Mocks::USER_1["real_name"]} - #{Mocks::USER_1["name"]} (#{Mocks::USER_1["id"]})\nCurrent status: #{Mocks::USER_1["profile"]["status_emoji"]} #{Mocks::USER_1["profile"]["status_text"]}"
     end
 end
