@@ -16,8 +16,7 @@ class User < Recipient
     end
 
     def ==(other)
-        @slack_id == other.slack_id &&
-        @name == other.name &&
+        super(other) &&
         @real_name == other.real_name &&
         @status_text == other.status_text &&
         @status_emoji == other.status_emoji

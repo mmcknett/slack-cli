@@ -14,8 +14,7 @@ class Channel < Recipient
     end
 
     def ==(other)
-        @slack_id == other.slack_id &&
-        @name == other.name &&
+        super(other) &&
         @topic == other.topic &&
         @member_count == other.member_count
     end
